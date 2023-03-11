@@ -1,20 +1,46 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import GameScreen from './screens/GameScreen';
+import StartScreen from './screens/StartScreen';
+import GameOver from './screens/GameOver';
 
 export default function App() {
+
+  const [pickedNumber, setPickedNumber] = React.useState(null);
+  const [gameIsOver, setGameIsOver] = React.useState(true);
+
+  const pickedNemberHandler = (pickedNember) => {
+    setPickedNumber(pickedNember);
+    setGameIsOver(false);
+  };
+
+  const resetGame = () => {
+    setPickedNumber(null);
+  };
+
+  const gameOverHandler = () => setGameIsOver(true);
+
+  let screen = <StartScreen onPickNumber={pickedNemberHandler} />
+
+  if (pickedNumber) {
+    screen = <GameScreen userNumber={pickedNumber} onGameOver={gameOverHandler} />
+  }
+
+  if (gameIsOver && pickedNumber) {
+    screen = <GameOver onResetGame={resetGame} />
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.rootScreen}>
+      {screen}
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  rootScreen: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#e74c3c',
   },
 });
