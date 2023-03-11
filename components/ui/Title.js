@@ -1,24 +1,23 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, StyleSheet, Platform } from 'react-native';
 
-const Tilte = ({ children }) => {
+function Title({ children }) {
+  return <Text style={styles.title}>{children}</Text>;
+}
 
-    return (
-            <Text style={styles.titleContainer} >{children}</Text>
-    );
-};
-
-
-export default Tilte;
-
+export default Title;
 
 const styles = StyleSheet.create({
-    titleContainer: {
-        padding: 12,
-        borderWidth: 2,
-        borderColor: '#ddb52f',
-        textAlign: 'center',
-        fontSize: 24,
-        color: '#ddb52f',
-        fontWeight: 'bold',
-    },
+  title: {
+    fontFamily: 'open-sans-bold',
+    fontSize: 24,
+    // fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
+    // borderWidth: Platform.OS === 'android' ? 2 : 0,
+    borderWidth: Platform.select({ ios: 0, android: 2}),
+    borderColor: 'white',
+    padding: 12,
+    maxWidth: '80%',
+    width: 300,
+  },
 });
